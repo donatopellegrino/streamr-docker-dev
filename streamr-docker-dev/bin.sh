@@ -47,7 +47,7 @@ help() {
     "$ORIG_DIRNAME/help_scripts.sh" $SERVICES
 }
 
-start() {
+up() {
     ip_lines=$(ifconfig | grep -c 10.200.10.1)
     if [ "$ip_lines" -eq "0" ]; then
         COMMANDS_TO_RUN+=("echo Binding the internal IP address 10.200.10.1 to the loopback interface.")
@@ -92,12 +92,20 @@ start() {
     fi
 }
 
-stop() {
+down() {
     [[ $SERVICES == "" ]] && msg="Stopping all" || msg="Stopping $SERVICES"
     COMMANDS_TO_RUN+=("echo $msg")
     COMMANDS_TO_RUN+=("$DOCKER_COMPOSE down")
     #COMMANDS_TO_RUN+=("$DOCKER_COMPOSE kill $SERVICES")
     #COMMANDS_TO_RUN+=("$DOCKER_COMPOSE rm -f $SERVICES")
+}
+
+start() {
+    COMMANDS_TO_RUN+=("docker start $(docker ps -aq -f name=streamr)")
+}
+
+stop() {
+    COMMANDS_TO_RUN+=("$DOCKER_COMPOSE stop")
 }
 
 restart() {
@@ -243,6 +251,12 @@ start )
     ;;
 stop )
     stop
+    ;;
+up )
+    up
+    ;;
+down )
+    down
     ;;
 restart )
     restart
