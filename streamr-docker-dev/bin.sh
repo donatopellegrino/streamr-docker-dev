@@ -121,9 +121,7 @@ up() {
 down() {
     [[ $SERVICES == "" ]] && msg="Stopping all" || msg="Stopping $SERVICES"
     COMMANDS_TO_RUN+=("echo $msg")
-    COMMANDS_TO_RUN+=("$DOCKER_COMPOSE down")
-    #COMMANDS_TO_RUN+=("$DOCKER_COMPOSE kill $SERVICES")
-    #COMMANDS_TO_RUN+=("$DOCKER_COMPOSE rm -f $SERVICES")
+    COMMANDS_TO_RUN+=("$DOCKER_COMPOSE down --volumes")
 }
 
 start() {
@@ -216,18 +214,6 @@ update() {
     COMMANDS_TO_RUN+=("git pull")
 }
 
-wipe() {
-    stop
-    COMMANDS_TO_RUN+=("echo Wiping persistent data of services")
-    COMMANDS_TO_RUN+=("docker volume prune -f")
-}
-
-factory-reset() {
-    wipe
-    COMMANDS_TO_RUN+=("echo Pruning docker images. This may take a while...")
-    COMMANDS_TO_RUN+=("docker system prune --all --force --volumes")
-}
-
 OPERATION=$1
 shift
 
@@ -308,12 +294,6 @@ pull )
     ;;
 update )
     update
-    ;;
-wipe )
-    wipe
-    ;;
-factory-reset )
-    factory-reset
     ;;
 services )
     services
