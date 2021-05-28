@@ -118,18 +118,25 @@ up() {
     fi
 }
 
-down() {
+stop() {
     [[ $SERVICES == "" ]] && msg="Stopping all" || msg="Stopping $SERVICES"
     COMMANDS_TO_RUN+=("echo $msg")
-    COMMANDS_TO_RUN+=("$DOCKER_COMPOSE down --volumes")
+    COMMANDS_TO_RUN+=("$DOCKER_COMPOSE stop $SERVICES")
 }
 
 start() {
-    COMMANDS_TO_RUN+=("docker start $(docker ps -aq -f name=streamr)")
+    # COMMANDS_TO_RUN+=("docker start $(docker ps -aq -f name=streamr)")
+    [[ $SERVICES == "" ]] && msg="Starting all" || msg="Starting $SERVICES"
+    COMMANDS_TO_RUN+=("echo $msg")
+    if [ "$SERVICES" == "" ]; then
+        COMMANDS_TO_RUN+=("docker start $(docker ps -aq -f name=streamr)")
+    else
+        COMMANDS_TO_RUN+=("$DOCKER_COMPOSE start $SERVICES")
+    fi
 }
 
-stop() {
-    COMMANDS_TO_RUN+=("$DOCKER_COMPOSE stop")
+down() {
+    COMMANDS_TO_RUN+=("$DOCKER_COMPOSE down --volumes")
 }
 
 restart() {

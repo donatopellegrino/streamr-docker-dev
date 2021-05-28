@@ -110,21 +110,31 @@ List available commands: `streamr-docker-dev`
 
 Help about particular command: `streamr-docker-dev help [command]`
 
-### `start`
+### `up`
 
-Start all services: `streamr-docker-dev start`
+Start all services: `streamr-docker-dev up`
 
-Start particular services: `streamr-docker-dev start [services]`
+Start particular services: `streamr-docker-dev up [services]`
 
-Start all services except particular ones: `streamr-docker-dev start --except [service]`
+Start all services except particular ones: `streamr-docker-dev up --except [service]`
 
-Start and wait for services to become healthy: `streamr-docker-dev start --wait`
+Start and wait for services to become healthy: `streamr-docker-dev up --wait`
+
+### `down`
+
+Stop all stopped services, remove containers and volumes: `streamr-docker-dev down`
 
 ### `stop`
 
 Stop all services: `streamr-docker-dev stop`
 
 Stop particular services: `streamr-docker-dev stop [services]`
+
+### `start`
+
+Start all stopped services: `streamr-docker-dev start`
+
+Start particular stopped services: `streamr-docker-dev start [services]`
 
 ### `restart`
 
@@ -159,15 +169,6 @@ Pull latest images of certain services: `streamr-docker-dev pull [services]`
 ### `update`
 
 Update the tool to the latest version: `streamr-docker-dev update`
-
-### `wipe`
-
-Wipe the persisted data of all services: `streamr-docker-dev wipe`
-
-### `factory-reset`
-
-"Factory reset" the docker environment by removing all images and persisted data: `streamr-docker-dev factory-reset`. 
-**Warning: this will delete all your docker images and their state, not just ones related to the Streamr stack.**
 
 ## Accessing the Core app and Streamr API
 
