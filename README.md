@@ -122,7 +122,7 @@ Start and wait for services to become healthy: `streamr-docker-dev up --wait`
 
 ### `down`
 
-Stop all stopped services, remove containers and volumes: `streamr-docker-dev down`
+Stop all started services, remove networks, containers and volumes: `streamr-docker-dev down`
 
 ### `stop`
 
