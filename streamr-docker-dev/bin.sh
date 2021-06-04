@@ -125,13 +125,15 @@ stop() {
 }
 
 start() {
-    # COMMANDS_TO_RUN+=("docker start $(docker ps -aq -f name=streamr)")
     [[ $SERVICES == "" ]] && msg="Starting all" || msg="Starting $SERVICES"
     COMMANDS_TO_RUN+=("echo $msg")
     if [ "$SERVICES" == "" ]; then
-        COMMANDS_TO_RUN+=("docker start $(docker ps -aq -f name=streamr)")
+        # COMMANDS_TO_RUN+=("docker start $(docker ps -aq -f name=streamr)")
+            # this command tries to start all the containers that have been started by "streamr-docker-dev up" (so excluding the excluded ones)
+        COMMANDS_TO_RUN+=("$DOCKER_COMPOSE start")
+            # this command tries to start all the containers listed in the docker-compose.yml file, so it shows "failed" on the ones that have been excluded on "streamr-docker-dev up"
     else
-        COMMANDS_TO_RUN+=("$DOCKER_COMPOSE start $SERVICES")
+        COMMANDS_TO_RUN+=("$DOCKER_COMPOSE start $SERVICES") 
     fi
 }
 
